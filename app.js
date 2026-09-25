@@ -21,16 +21,11 @@ function renderizarRegras() {
         container.appendChild(divCard);
     });
 
-    // Adiciona o botão de avançar no final das regras
+    // Botão gerado de forma simples e direta para evitar bugs de invisibilidade
     const divBotao = document.createElement('div');
     divBotao.style.textAlign = "center";
-    divBotao.style.marginTop = "30px";
+    divBotao.style.margin = "40px 0 60px 0"; // Margem extra para não cortar no fundo
     divBotao.innerHTML = `<button onclick="renderizarPerguntas()">Pegar Cartões 🎲</button>`;
-    
-    // Animação para o botão aparecer depois das cartas
-    divBotao.style.opacity = "0";
-    divBotao.style.animation = `pular 0.5s forwards`;
-    divBotao.style.animationDelay = `${dbRegras.length * 0.1}s`;
     
     container.appendChild(divBotao);
 }
