@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App: A Trilha do Sorriso Saudável</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; color: #333; }
+        .nav-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+        button { padding: 12px 20px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background-color: #2c3e50; color: white; }
+        button:hover { background-color: #1a252f; }
+        
+        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 6px solid #ccc; }
+        .card h3 { margin-top: 0; }
+        
+        /* Cores das categorias das cartas */
+        .borda-Verde { border-left-color: #28a745; }
+        .borda-Azul { border-left-color: #007bff; }
+        .borda-Amarelo { border-left-color: #ffc107; }
+        .borda-Vermelho { border-left-color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <h1>A Trilha do Sorriso Saudável</h1>
+    
+    <div class="nav-buttons">
+        <button onclick="renderizarRegras()">Instruções de Jogo</button>
+        <button onclick="renderizarPerguntas()">Cartões de Perguntas</button>
+    </div>
+
+    <div id="app-container">
+        <!-- O conteúdo será injetado aqui pelo JavaScript -->
+        <h2>Bem-vindo. Selecione uma opção acima para iniciar.</h2>
+    </div>
+
+    <!-- Importando o banco de dados e a lógica -->
+    <script src="banco_de_dados.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
