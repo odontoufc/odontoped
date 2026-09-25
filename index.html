@@ -72,7 +72,7 @@
         .tela-inicial {
             text-align: center;
             background: white;
-            padding: 40px 20px;
+            padding: 40px 20px 20px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             border: 5px dashed #ff9000;
@@ -83,6 +83,15 @@
             font-size: 2em;
             color: #0076a3;
             margin-top: 0;
+        }
+
+        /* Estilo dos créditos no rodapé da tela inicial */
+        .creditos-rodape {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #ccc;
+            color: #555;
+            font-size: 1.1em;
         }
 
         .card { 
@@ -154,9 +163,20 @@
     <div id="app-container">
         <!-- Tela Inicial Fixa -->
         <div class="tela-inicial">
+            
+            <!-- Inserção da Logo -->
+            <img src="logo.png" alt="Logo UFC Sobral" style="max-height: 120px; margin-bottom: 15px;">
+            
             <h2>Bem-vindo!</h2>
             <p style="font-size: 1.3em; margin-bottom: 30px;">Prepare os peões e a roleta para começar a aprender brincando.</p>
             <button onclick="renderizarRegras()">▶ Iniciar Jogo</button>
+
+            <!-- Seção dos Créditos e Disciplina -->
+            <div class="creditos-rodape">
+                <p style="margin: 0 0 5px 0; font-weight: 600; color: #0076a3;">Disciplina de Odontopediatria da UFC - Sobral</p>
+                <p style="margin: 0; font-size: 0.9em;">Criado por: Lourival, Gustavo e Taylan</p>
+            </div>
+
         </div>
     </div>
 
