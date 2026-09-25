@@ -25,18 +25,14 @@
             min-height: 100vh;
         }
 
-        h1 {
-            color: #fff;
-            text-align: center;
-            font-size: 2.8em;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            text-shadow: 
-                -3px -3px 0 #ff9000,  
-                 3px -3px 0 #ff9000,
-                -3px  3px 0 #ff9000,
-                 3px  3px 0 #ff9000,
-                 5px  5px 0 #c26d00;
+        /* Estilo da Logo do Jogo no topo */
+        .logo-jogo {
+            max-width: 90%;
+            max-height: 200px;
+            margin-bottom: 20px;
+            object-fit: contain;
+            /* Pequena animação ao carregar a página */
+            animation: pular 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         button { 
@@ -85,7 +81,6 @@
             margin-top: 0;
         }
 
-        /* Estilo dos créditos no rodapé da tela inicial */
         .creditos-rodape {
             margin-top: 40px;
             padding-top: 20px;
@@ -161,7 +156,8 @@
 </head>
 <body>
 
-    <h1>🦷 A Trilha do Sorriso Saudável ✨</h1>
+    <!-- Logo principal do jogo que aparecerá em todas as telas -->
+    <img src="logo-jogo.png" alt="A Trilha do Sorriso Saudável" class="logo-jogo">
     
     <div id="app-container">
         <!-- Tela Inicial Fixa -->
@@ -171,12 +167,12 @@
             <p style="font-size: 1.3em; margin-bottom: 30px;">Prepare os peões e a roleta para começar a aprender brincando.</p>
             <button onclick="renderizarRegras()">▶ Iniciar Jogo</button>
 
-            <!-- Seção dos Créditos, Disciplina e Logo -->
+            <!-- Seção dos Créditos, Disciplina e Logo UFC -->
             <div class="creditos-rodape">
                 <p style="margin: 0 0 5px 0; font-weight: 600; color: #0076a3;">Disciplina de Odontopediatria da UFC - Sobral</p>
                 <p style="margin: 0; font-size: 0.9em;">Criado por: Lourival, Gustavo e Taylan</p>
                 
-                <!-- Logo reposicionada para o rodapé -->
+                <!-- Logo da instituição no rodapé -->
                 <img src="logo.png" alt="Logo UFC Sobral" style="max-height: 100px; margin-top: 20px;">
             </div>
 
