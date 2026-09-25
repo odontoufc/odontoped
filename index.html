@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Trilha do Sorriso Saudável</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -14,7 +14,8 @@
             font-family: 'Fredoka', sans-serif; 
             margin: 0; 
             padding: 20px; 
-            background-color: #87CEFA; 
+            /* Fundo azul claro suave inspirado na logo */
+            background-color: #dcf2ff; 
             background-image: radial-gradient(#ffffff 15%, transparent 16%), radial-gradient(#ffffff 15%, transparent 16%);
             background-size: 60px 60px;
             background-position: 0 0, 30px 30px;
@@ -28,34 +29,35 @@
         /* Estilo da Logo do Jogo no topo */
         .logo-jogo {
             max-width: 90%;
-            max-height: 200px;
-            margin-bottom: 20px;
+            max-height: 280px; /* Aumentado para dar mais destaque */
+            margin-bottom: 10px;
             object-fit: contain;
-            /* Pequena animação ao carregar a página */
             animation: pular 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.15));
         }
 
+        /* Botões com as cores exatas da logo ("Sorriso" amarelo com texto azul) */
         button { 
             font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
             padding: 15px 40px; 
-            font-size: 1.3em; 
+            font-size: 1.4em; 
             cursor: pointer; 
             border: none; 
-            border-radius: 30px; 
-            background-color: #ff9000; 
-            color: white;
-            box-shadow: 0 8px 0 #c26d00, 0 15px 20px rgba(0,0,0,0.2);
+            border-radius: 40px; 
+            background-color: #FFCB05; /* Amarelo da logo */
+            color: #004890; /* Azul escuro da logo */
+            box-shadow: 0 8px 0 #D99B00, 0 15px 20px rgba(0,0,0,0.2);
             transition: all 0.1s ease-in-out;
             text-transform: uppercase;
         }
 
         button:hover { 
-            background-color: #ffa500; 
+            background-color: #FFD633; 
         }
 
         button:active {
-            box-shadow: 0 0px 0 #c26d00, 0 5px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0px 0 #D99B00, 0 5px 10px rgba(0,0,0,0.2);
             transform: translateY(8px);
         }
 
@@ -69,22 +71,22 @@
             text-align: center;
             background: white;
             padding: 40px 20px 20px 20px;
-            border-radius: 20px;
+            border-radius: 25px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border: 5px dashed #ff9000;
-            margin-top: 20px;
+            border: 6px solid #004890; /* Azul escuro combinando com a logo */
+            margin-top: 10px;
         }
 
         .tela-inicial h2 {
-            font-size: 2em;
-            color: #0076a3;
+            font-size: 2.2em;
+            color: #004890;
             margin-top: 0;
         }
 
         .creditos-rodape {
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 2px dashed #ccc;
+            border-top: 3px dashed #004890;
             color: #555;
             font-size: 1.1em;
             display: flex;
@@ -98,7 +100,7 @@
             margin-bottom: 25px; 
             border-radius: 20px; 
             box-shadow: 0 10px 0 rgba(0,0,0,0.1); 
-            border: 4px solid #ccc; 
+            border: 5px solid #ccc; 
             position: relative;
             animation: pular 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             opacity: 0;
@@ -112,21 +114,22 @@
 
         .card h3 { 
             margin-top: 0; 
-            font-size: 1.5em;
-            border-bottom: 2px solid #eee;
+            font-size: 1.6em;
+            border-bottom: 3px solid #eee;
             padding-bottom: 10px;
         }
         
-        .borda-Verde { border-color: #92d050; border-bottom-width: 10px; }
-        .borda-Verde h3 { color: #5e8a2f; }
+        /* Cores exatas extraídas da roleta da logo */
+        .borda-Verde { border-color: #39B54A; border-bottom-width: 12px; }
+        .borda-Verde h3 { color: #288034; }
 
-        .borda-Azul { border-color: #00b0f0; border-bottom-width: 10px; }
-        .borda-Azul h3 { color: #0076a3; }
+        .borda-Azul { border-color: #0071BC; border-bottom-width: 12px; }
+        .borda-Azul h3 { color: #004890; }
 
-        .borda-Amarelo { border-color: #ffc000; border-bottom-width: 10px; }
+        .borda-Amarelo { border-color: #FFCB05; border-bottom-width: 12px; }
         .borda-Amarelo h3 { color: #b38600; }
 
-        .borda-Vermelho { border-color: #ff0000; border-bottom-width: 10px; }
+        .borda-Vermelho { border-color: #ED1C24; border-bottom-width: 12px; }
         .borda-Vermelho h3 { color: #a60000; }
 
         ul.opcoes-lista {
@@ -136,11 +139,11 @@
         }
 
         ul.opcoes-lista li {
-            background-color: #f0f8ff;
+            background-color: #f5f9ff;
             margin-bottom: 10px;
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid #b3d4fc;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #cce0ff;
             font-size: 1.1em;
         }
 
@@ -148,7 +151,7 @@
             background-color: #fff9e6; 
             padding: 15px; 
             border-radius: 15px; 
-            border: 3px dashed #ffc000;
+            border: 3px dashed #FFCB05;
             margin-top: 20px;
             font-size: 1.1em;
         }
@@ -156,23 +159,20 @@
 </head>
 <body>
 
-    <!-- Logo principal do jogo que aparecerá em todas as telas -->
+    <!-- Logo adaptada -->
     <img src="logo-jogo.png" alt="A Trilha do Sorriso Saudável" class="logo-jogo">
     
     <div id="app-container">
-        <!-- Tela Inicial Fixa -->
         <div class="tela-inicial">
             
             <h2>Bem-vindo!</h2>
-            <p style="font-size: 1.3em; margin-bottom: 30px;">Prepare os peões e a roleta para começar a aprender brincando.</p>
+            <p style="font-size: 1.3em; margin-bottom: 30px; color: #444;">Prepare os peões e a roleta para começar a aprender brincando.</p>
             <button onclick="renderizarRegras()">▶ Iniciar Jogo</button>
 
-            <!-- Seção dos Créditos, Disciplina e Logo UFC -->
             <div class="creditos-rodape">
-                <p style="margin: 0 0 5px 0; font-weight: 600; color: #0076a3;">Disciplina de Odontopediatria da UFC - Sobral</p>
-                <p style="margin: 0; font-size: 0.9em;">Criado por: Lourival, Gustavo e Taylan</p>
+                <p style="margin: 0 0 5px 0; font-weight: 700; color: #004890;">Disciplina de Odontopediatria da UFC - Sobral</p>
+                <p style="margin: 0; font-size: 0.9em; font-weight: 500;">Criado por: Lourival, Gustavo e Taylan</p>
                 
-                <!-- Logo da instituição no rodapé -->
                 <img src="logo.png" alt="Logo UFC Sobral" style="max-height: 100px; margin-top: 20px;">
             </div>
 
