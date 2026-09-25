@@ -3,7 +3,7 @@
 const container = document.getElementById('app-container');
 
 function renderizarRegras() {
-    // Substitui a tela inicial pelo título das regras
+    // Tela de regras
     container.innerHTML = "<h2 style='text-align: center; color: #fff; text-shadow: 2px 2px 0 #333;'>Instruções de Jogo</h2>";
     
     dbRegras.forEach((secao, index) => {
@@ -21,91 +21,116 @@ function renderizarRegras() {
         container.appendChild(divCard);
     });
 
-    // Botão gerado de forma simples e direta para evitar bugs de invisibilidade
+    // Botão para avançar para a seleção de cores
     const divBotao = document.createElement('div');
     divBotao.style.textAlign = "center";
-    divBotao.style.margin = "40px 0 60px 0"; // Margem extra para não cortar no fundo
-    divBotao.innerHTML = `<button onclick="renderizarPerguntas()">Pegar Cartões 🎲</button>`;
+    divBotao.style.margin = "40px 0 60px 0"; 
+    divBotao.innerHTML = `<button onclick="renderizarSelecaoCores()">Pegar Cartões 🎲</button>`;
     
     container.appendChild(divBotao);
 }
 
-function renderizarPerguntas() {
-    // Substitui as regras pela área de perguntas
-    container.innerHTML = "<h2 style='text-align: center; color: #fff; text-shadow: 2px 2px 0 #333;'>Banco de Cartões</h2>";
+function renderizarSelecaoCores() {
+    // Menu de botões para escolher a cor que caiu na roleta
+    container.innerHTML = `
+        <h2 style='text-align: center; color: #fff; text-shadow: 2px 2px 0 #333;'>Qual cor caiu na roleta?</h2>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 30px;">
+            <button style="background-color: #92d050; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #5e8a2f;" onclick="sortearCarta('Verde')">🟢 Verde</button>
+            <button style="background-color: #00b0f0; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #0076a3;" onclick="sortearCarta('Azul')">🔵 Azul</button>
+            <button style="background-color: #ffc000; color: #333; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #b38600;" onclick="sortearCarta('Amarelo')">🟡 Amarelo</button>
+            <button style="background-color: #ff0000; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #a60000;" onclick="sortearCarta('Vermelho')">🔴 Vermelho</button>
+        </div>
+    `;
+}
+
+function sortearCarta(cor) {
+    // Filtra os cartões da cor selecionada e escolhe um aleatoriamente
+    const cartoesDaCor = dbPerguntas.filter(item => item.cor === cor);
     
-    dbPerguntas.forEach((item, index) => {
-        const divCard = document.createElement('div');
-        divCard.className = `card borda-${item.cor}`;
-        divCard.style.animationDelay = `${index * 0.1}s`; 
+    if (cartoesDaCor.length === 0) return;
+    
+    const item = cartoesDaCor[Math.floor(Math.random() * cartoesDaCor.length)];
+
+    // Limpa a tela e adiciona os controles de navegação
+    container.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <button style="background-color: #666; box-shadow: 0 6px 0 #444; font-size: 1.1em; padding: 12px 20px;" onclick="renderizarSelecaoCores()">⬅ Voltar</button>
+            <button style="background-color: #ff9000; box-shadow: 0 6px 0 #c26d00; font-size: 1.1em; padding: 12px 20px;" onclick="sortearCarta('${cor}')">Sortear outra ${cor} 🎲</button>
+        </div>
+    `;
+
+    // Renderiza a carta sorteada
+    const divCard = document.createElement('div');
+    divCard.className = `card borda-${item.cor}`;
+    
+    divCard.innerHTML = `
+        <h3>Setor ${item.cor}: ${item.categoria}</h3>
+        <p style="font-size: 1.3em; font-weight: 500;"><strong>Pergunta:</strong> ${item.pergunta}</p>
         
-        divCard.innerHTML = `
-            <h3>Setor ${item.cor}: ${item.categoria}</h3>
-            <p style="font-size: 1.3em; font-weight: 500;"><strong>Pergunta:</strong> ${item.pergunta}</p>
-            
-            <ul class="opcoes-lista" id="lista-${item.id}">
-                <li data-letra="A"><strong>A)</strong> ${item.opcoes.A}</li>
-                <li data-letra="B"><strong>B)</strong> ${item.opcoes.B}</li>
-                <li data-letra="C"><strong>C)</strong> ${item.opcoes.C}</li>
-            </ul>
-            
-            <div class="resposta-box" id="resposta-${item.id}" style="display: none;">
-                <p style="margin: 0 0 10px 0; color: #d32f2f; font-size: 1.2em;"><strong>Resposta Correta: ${item.respostaCorreta}</strong></p>
-                <p style="margin: 0; color: #555;"><strong>Para o Mediador:</strong> ${item.explicacao}</p>
-            </div>
-        `;
+        <ul class="opcoes-lista" id="lista-${item.id}">
+            <li data-letra="A"><strong>A)</strong> ${item.opcoes.A}</li>
+            <li data-letra="B"><strong>B)</strong> ${item.opcoes.B}</li>
+            <li data-letra="C"><strong>C)</strong> ${item.opcoes.C}</li>
+        </ul>
         
-        container.appendChild(divCard);
+        <div class="resposta-box" id="resposta-${item.id}" style="display: none;">
+            <p style="margin: 0 0 10px 0; color: #d32f2f; font-size: 1.2em;"><strong>Resposta Correta: ${item.respostaCorreta}</strong></p>
+            <p style="margin: 0; color: #555;"><strong>Para o Mediador:</strong> ${item.explicacao}</p>
+        </div>
+    `;
+    
+    container.appendChild(divCard);
 
-        const opcoes = divCard.querySelectorAll(`#lista-${item.id} li`);
-        const caixaResposta = divCard.querySelector(`#resposta-${item.id}`);
-        let respondido = false;
+    // Lógica de clique e verificação de gabarito
+    const opcoes = divCard.querySelectorAll(`#lista-${item.id} li`);
+    const caixaResposta = divCard.querySelector(`#resposta-${item.id}`);
+    let respondido = false;
 
-        opcoes.forEach(opcao => {
-            opcao.style.cursor = 'pointer';
-            opcao.style.transition = 'transform 0.1s, background-color 0.2s';
+    opcoes.forEach(opcao => {
+        opcao.style.cursor = 'pointer';
+        opcao.style.transition = 'transform 0.1s, background-color 0.2s';
 
-            opcao.addEventListener('mouseenter', () => {
-                if (!respondido) {
-                    opcao.style.backgroundColor = '#e6f2ff';
-                    opcao.style.transform = 'scale(1.02)';
+        opcao.addEventListener('mouseenter', () => {
+            if (!respondido) {
+                opcao.style.backgroundColor = '#e6f2ff';
+                opcao.style.transform = 'scale(1.02)';
+            }
+        });
+        
+        opcao.addEventListener('mouseleave', () => {
+            if (!respondido) {
+                opcao.style.backgroundColor = '#f0f8ff';
+                opcao.style.transform = 'scale(1)';
+            }
+        });
+
+        opcao.addEventListener('click', () => {
+            if (respondido) return; 
+            respondido = true;
+
+            const letraSelecionada = opcao.getAttribute('data-letra');
+            const letraCorreta = item.respostaCorreta;
+
+            opcoes.forEach(opt => {
+                const letraAtual = opt.getAttribute('data-letra');
+                opt.style.cursor = 'default';
+                opt.style.transform = 'scale(1)';
+                
+                if (letraAtual === letraCorreta) {
+                    opt.style.backgroundColor = '#d4edda';
+                    opt.style.borderColor = '#c3e6cb';
+                    opt.style.color = '#155724';
+                } else if (letraAtual === letraSelecionada) {
+                    opt.style.backgroundColor = '#f8d7da';
+                    opt.style.borderColor = '#f5c6cb';
+                    opt.style.color = '#721c24';
+                } else {
+                    opt.style.opacity = '0.5';
                 }
             });
-            opcao.addEventListener('mouseleave', () => {
-                if (!respondido) {
-                    opcao.style.backgroundColor = '#f0f8ff';
-                    opcao.style.transform = 'scale(1)';
-                }
-            });
 
-            opcao.addEventListener('click', () => {
-                if (respondido) return; 
-                respondido = true;
-
-                const letraSelecionada = opcao.getAttribute('data-letra');
-                const letraCorreta = item.respostaCorreta;
-
-                opcoes.forEach(opt => {
-                    const letraAtual = opt.getAttribute('data-letra');
-                    opt.style.cursor = 'default';
-                    opt.style.transform = 'scale(1)';
-                    
-                    if (letraAtual === letraCorreta) {
-                        opt.style.backgroundColor = '#d4edda';
-                        opt.style.borderColor = '#c3e6cb';
-                        opt.style.color = '#155724';
-                    } else if (letraAtual === letraSelecionada) {
-                        opt.style.backgroundColor = '#f8d7da';
-                        opt.style.borderColor = '#f5c6cb';
-                        opt.style.color = '#721c24';
-                    } else {
-                        opt.style.opacity = '0.5';
-                    }
-                });
-
-                caixaResposta.style.display = 'block';
-                caixaResposta.style.animation = 'pular 0.4s ease-out forwards';
-            });
+            caixaResposta.style.display = 'block';
+            caixaResposta.style.animation = 'pular 0.4s ease-out forwards';
         });
     });
 }
