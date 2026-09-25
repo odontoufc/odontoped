@@ -3,6 +3,7 @@
 const container = document.getElementById('app-container');
 
 function renderizarRegras() {
+    // Substitui a tela inicial pelo título das regras
     container.innerHTML = "<h2 style='text-align: center; color: #fff; text-shadow: 2px 2px 0 #333;'>Instruções de Jogo</h2>";
     
     dbRegras.forEach((secao, index) => {
@@ -19,9 +20,23 @@ function renderizarRegras() {
         divCard.innerHTML = htmlLista;
         container.appendChild(divCard);
     });
+
+    // Adiciona o botão de avançar no final das regras
+    const divBotao = document.createElement('div');
+    divBotao.style.textAlign = "center";
+    divBotao.style.marginTop = "30px";
+    divBotao.innerHTML = `<button onclick="renderizarPerguntas()">Pegar Cartões 🎲</button>`;
+    
+    // Animação para o botão aparecer depois das cartas
+    divBotao.style.opacity = "0";
+    divBotao.style.animation = `pular 0.5s forwards`;
+    divBotao.style.animationDelay = `${dbRegras.length * 0.1}s`;
+    
+    container.appendChild(divBotao);
 }
 
 function renderizarPerguntas() {
+    // Substitui as regras pela área de perguntas
     container.innerHTML = "<h2 style='text-align: center; color: #fff; text-shadow: 2px 2px 0 #333;'>Banco de Cartões</h2>";
     
     dbPerguntas.forEach((item, index) => {
@@ -29,7 +44,6 @@ function renderizarPerguntas() {
         divCard.className = `card borda-${item.cor}`;
         divCard.style.animationDelay = `${index * 0.1}s`; 
         
-        // A tag style="display: none;" oculta a resposta inicialmente
         divCard.innerHTML = `
             <h3>Setor ${item.cor}: ${item.categoria}</h3>
             <p style="font-size: 1.3em; font-weight: 500;"><strong>Pergunta:</strong> ${item.pergunta}</p>
@@ -48,7 +62,6 @@ function renderizarPerguntas() {
         
         container.appendChild(divCard);
 
-        // Captura as opções e a caixa de resposta geradas acima
         const opcoes = divCard.querySelectorAll(`#lista-${item.id} li`);
         const caixaResposta = divCard.querySelector(`#resposta-${item.id}`);
         let respondido = false;
@@ -57,7 +70,6 @@ function renderizarPerguntas() {
             opcao.style.cursor = 'pointer';
             opcao.style.transition = 'transform 0.1s, background-color 0.2s';
 
-            // Efeito visual ao passar o mouse
             opcao.addEventListener('mouseenter', () => {
                 if (!respondido) {
                     opcao.style.backgroundColor = '#e6f2ff';
@@ -71,9 +83,8 @@ function renderizarPerguntas() {
                 }
             });
 
-            // Validação ao clicar na alternativa
             opcao.addEventListener('click', () => {
-                if (respondido) return; // Bloqueia cliques adicionais após a primeira escolha
+                if (respondido) return; 
                 respondido = true;
 
                 const letraSelecionada = opcao.getAttribute('data-letra');
@@ -85,22 +96,18 @@ function renderizarPerguntas() {
                     opt.style.transform = 'scale(1)';
                     
                     if (letraAtual === letraCorreta) {
-                        // Pinta a resposta certa de verde
                         opt.style.backgroundColor = '#d4edda';
                         opt.style.borderColor = '#c3e6cb';
                         opt.style.color = '#155724';
                     } else if (letraAtual === letraSelecionada) {
-                        // Pinta a resposta errada clicada de vermelho
                         opt.style.backgroundColor = '#f8d7da';
                         opt.style.borderColor = '#f5c6cb';
                         opt.style.color = '#721c24';
                     } else {
-                        // Esmaece as alternativas não clicadas
                         opt.style.opacity = '0.5';
                     }
                 });
 
-                // Exibe o gabarito e a explicação
                 caixaResposta.style.display = 'block';
                 caixaResposta.style.animation = 'pular 0.4s ease-out forwards';
             });
