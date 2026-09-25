@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Trilha do Sorriso Saudável</title>
-    <!-- Importando fonte arredondada para visual infantil -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,7 +14,6 @@
             font-family: 'Fredoka', sans-serif; 
             margin: 0; 
             padding: 20px; 
-            /* Fundo azul com padrão de bolinhas brancas */
             background-color: #87CEFA; 
             background-image: radial-gradient(#ffffff 15%, transparent 16%), radial-gradient(#ffffff 15%, transparent 16%);
             background-size: 60px 60px;
@@ -24,15 +22,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
         h1 {
             color: #fff;
             text-align: center;
-            font-size: 2.5em;
+            font-size: 2.8em;
             letter-spacing: 2px;
             margin-bottom: 30px;
-            /* Contorno duplo para destacar o título no fundo */
             text-shadow: 
                 -3px -3px 0 #ff9000,  
                  3px -3px 0 #ff9000,
@@ -41,20 +39,11 @@
                  5px  5px 0 #c26d00;
         }
 
-        .nav-buttons { 
-            display: flex; 
-            gap: 20px; 
-            margin-bottom: 30px; 
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        /* Efeito de botão 3D de jogo */
         button { 
             font-family: 'Fredoka', sans-serif;
             font-weight: 600;
-            padding: 15px 30px; 
-            font-size: 1.2em; 
+            padding: 15px 40px; 
+            font-size: 1.3em; 
             cursor: pointer; 
             border: none; 
             border-radius: 30px; 
@@ -69,7 +58,6 @@
             background-color: #ffa500; 
         }
 
-        /* Animação ao clicar (o botão afunda) */
         button:active {
             box-shadow: 0 0px 0 #c26d00, 0 5px 10px rgba(0,0,0,0.2);
             transform: translateY(8px);
@@ -78,19 +66,25 @@
         #app-container {
             width: 100%;
             max-width: 800px;
+            padding-bottom: 40px;
         }
 
-        .mensagem-inicial {
+        .tela-inicial {
             text-align: center;
             background: white;
-            padding: 20px;
+            padding: 40px 20px;
             border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            font-size: 1.2em;
-            border: 4px dashed #ff9000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 5px dashed #ff9000;
+            margin-top: 20px;
         }
 
-        /* Estilo das Cartas */
+        .tela-inicial h2 {
+            font-size: 2em;
+            color: #0076a3;
+            margin-top: 0;
+        }
+
         .card { 
             background: white; 
             padding: 25px; 
@@ -99,13 +93,11 @@
             box-shadow: 0 10px 0 rgba(0,0,0,0.1); 
             border: 4px solid #ccc; 
             position: relative;
-            /* Aciona a animação de entrada */
             animation: pular 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             opacity: 0;
             transform: scale(0.5);
         }
 
-        /* Animação "Bouncy" nas cartas */
         @keyframes pular {
             0% { transform: scale(0.5); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -118,7 +110,6 @@
             padding-bottom: 10px;
         }
         
-        /* Cores baseadas nos setores da roleta */
         .borda-Verde { border-color: #92d050; border-bottom-width: 10px; }
         .borda-Verde h3 { color: #5e8a2f; }
 
@@ -131,7 +122,6 @@
         .borda-Vermelho { border-color: #ff0000; border-bottom-width: 10px; }
         .borda-Vermelho h3 { color: #a60000; }
 
-        /* Estilização das listas dentro das cartas */
         ul.opcoes-lista {
             list-style-type: none; 
             padding: 0;
@@ -161,16 +151,16 @@
 
     <h1>🦷 A Trilha do Sorriso Saudável ✨</h1>
     
-    <div class="nav-buttons">
-        <button onclick="renderizarRegras()">📜 Como Jogar</button>
-        <button onclick="renderizarPerguntas()">🎲 Pegar Carta</button>
-    </div>
-
     <div id="app-container">
-        <h2 class="mensagem-inicial">Selecione um dos botões acima para começar! 🚀</h2>
+        <!-- Tela Inicial Fixa -->
+        <div class="tela-inicial">
+            <h2>Bem-vindo!</h2>
+            <p style="font-size: 1.3em; margin-bottom: 30px;">Prepare os peões e a roleta para começar a aprender brincando.</p>
+            <button onclick="renderizarRegras()">▶ Iniciar Jogo</button>
+        </div>
     </div>
 
-    <!-- Importando os arquivos separadamente -->
+    <!-- Importando os arquivos -->
     <script src="regras.js"></script>
     <script src="perguntas.js"></script>
     <script src="app.js"></script>
