@@ -2,7 +2,7 @@
 
 const container = document.getElementById('app-container');
 
-// Título com texto Azul Escuro e contorno Branco espesso para resolver o contraste com o fundo claro
+// Título com texto Azul Escuro e contorno Branco espesso
 const estiloTitulo = "text-align: center; color: #004890; text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff, 0 6px 10px rgba(0,0,0,0.15); font-size: 2.5em; font-weight: 700; margin-bottom: 30px;";
 
 function renderizarRegras() {
@@ -33,14 +33,14 @@ function renderizarRegras() {
 }
 
 function renderizarSelecaoCores() {
-    // Cores de texto ajustadas: Azul escuro para fundos claros (Verde/Amarelo) e Branco para fundos escuros (Azul/Vermelho)
+    // Todos os botões agora possuem texto branco (#ffffff) e sem os emojis de bolinhas
     container.innerHTML = `
         <h2 style='${estiloTitulo}'>Qual cor caiu na roleta?</h2>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-            <button style="background-color: #39B54A; color: #004890; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #207A2E;" onclick="sortearCarta('Verde')">🟢 VERDE</button>
-            <button style="background-color: #0071BC; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #004890;" onclick="sortearCarta('Azul')">🔵 AZUL</button>
-            <button style="background-color: #FFCB05; color: #004890; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #D99B00;" onclick="sortearCarta('Amarelo')">🟡 AMARELO</button>
-            <button style="background-color: #ED1C24; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #A80005;" onclick="sortearCarta('Vermelho')">🔴 VERMELHO</button>
+            <button style="background-color: #39B54A; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #207A2E;" onclick="sortearCarta('Verde')">VERDE</button>
+            <button style="background-color: #0071BC; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #004890;" onclick="sortearCarta('Azul')">AZUL</button>
+            <button style="background-color: #FFCB05; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #D99B00;" onclick="sortearCarta('Amarelo')">AMARELO</button>
+            <button style="background-color: #ED1C24; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #A80005;" onclick="sortearCarta('Vermelho')">VERMELHO</button>
         </div>
     `;
 }
