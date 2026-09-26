@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Trilha do Sorriso Saudável</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -23,6 +23,33 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+        }
+
+        /* ----- NOVO: Botão de Tela Cheia Flutuante ----- */
+        .btn-fullscreen {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 55px;
+            height: 55px;
+            background-color: #004890;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.8em;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #002855, 0 8px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: all 0.1s ease-in-out;
+        }
+
+        .btn-fullscreen:active {
+            box-shadow: 0 0px 0 #002855;
+            transform: translateY(6px);
         }
 
         .logo-jogo {
@@ -152,7 +179,6 @@
             font-size: 1.1em;
         }
 
-        /* ----- NOVO: Estilos do Indicador de Rolagem ----- */
         .scroll-indicador {
             position: fixed;
             bottom: 30px;
@@ -167,7 +193,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             border: 3px solid #004890;
             z-index: 1000;
-            pointer-events: none; /* O clique vaza através dele */
+            pointer-events: none; 
             transition: opacity 0.3s ease-in-out;
             animation: flutuar 1.5s ease-in-out infinite;
         }
@@ -180,6 +206,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Botão de Tela Cheia -->
+    <button class="btn-fullscreen" onclick="toggleFullScreen()" title="Alternar Tela Cheia">⛶</button>
 
     <img src="logo-jogo.png" alt="A Trilha do Sorriso Saudável" class="logo-jogo">
     
@@ -200,10 +229,10 @@
         </div>
     </div>
 
-    <!-- Forçando a atualização do cache (adicionado o ?v=3) -->
+    <!-- Importando os arquivos -->
     <script src="regras.js"></script>
     <script src="perguntas.js"></script>
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
 
 </body>
 </html>
