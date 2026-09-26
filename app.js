@@ -2,8 +2,34 @@
 
 const container = document.getElementById('app-container');
 
-// Título com texto Azul Escuro e contorno Branco espesso
 const estiloTitulo = "text-align: center; color: #004890; text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff, 0 6px 10px rgba(0,0,0,0.15); font-size: 2.5em; font-weight: 700; margin-bottom: 30px;";
+
+// ----- FUNÇÕES DO INDICADOR DE SCROLL -----
+function verificarScroll() {
+    const indicador = document.getElementById('indicador-scroll');
+    if (indicador) {
+        // Se a tela já mostra o final da página, nem exibe o indicador
+        if (document.body.offsetHeight <= window.innerHeight) {
+            indicador.style.display = 'none';
+            return;
+        }
+        
+        // Se rolou até quase o final (margem de 100px), esconde o indicador
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+            indicador.style.opacity = '0';
+        } else {
+            indicador.style.opacity = '1';
+            indicador.style.display = 'block';
+        }
+    }
+}
+
+function removerIndicador() {
+    const indicador = document.getElementById('indicador-scroll');
+    if(indicador) indicador.remove();
+    window.removeEventListener('scroll', verificarScroll);
+}
+// ------------------------------------------
 
 function renderizarRegras() {
     container.innerHTML = `<h2 style='${estiloTitulo}'>Instruções de Jogo</h2>`;
@@ -30,10 +56,22 @@ function renderizarRegras() {
     divBotao.innerHTML = `<button onclick="renderizarSelecaoCores()">Ir para Roleta de Cartões 🎲</button>`;
     
     container.appendChild(divBotao);
+
+    // Cria e exibe o indicador de scroll
+    removerIndicador(); // Limpa se houver algum sobrando
+    const indicador = document.createElement('div');
+    indicador.id = 'indicador-scroll';
+    indicador.className = 'scroll-indicador';
+    indicador.innerHTML = '👇 Role para baixo 👇';
+    document.body.appendChild(indicador);
+    
+    window.addEventListener('scroll', verificarScroll);
+    setTimeout(verificarScroll, 300); // Checa 0.3s depois de carregar a tela
 }
 
 function renderizarSelecaoCores() {
-    // Todos os botões agora possuem texto branco (#ffffff) e sem os emojis de bolinhas
+    removerIndicador(); // Ao sair da tela de regras, o indicador é destruído
+    
     container.innerHTML = `
         <h2 style='${estiloTitulo}'>Qual cor caiu na roleta?</h2>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
