@@ -5,233 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Trilha do Sorriso Saudável</title>
     
-    <!-- Ícone do separador (Favicon) -->
     <link rel="icon" type="image/png" href="logo-jogo.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body { 
-            font-family: 'Fredoka', sans-serif; 
-            margin: 0; 
-            padding: 20px; 
+            font-family: 'Fredoka', sans-serif; margin: 0; padding: 20px; 
             background-color: #dcf2ff; 
             background-image: radial-gradient(#ffffff 15%, transparent 16%), radial-gradient(#ffffff 15%, transparent 16%);
-            background-size: 60px 60px;
-            background-position: 0 0, 30px 30px;
-            color: #333; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            background-size: 60px 60px; background-position: 0 0, 30px 30px;
+            color: #333; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* ----- Botões Flutuantes no Topo ----- */
         .btn-fullscreen, .btn-music {
-            position: fixed;
-            top: 15px;
-            width: 55px;
-            height: 55px;
-            border: none;
-            border-radius: 50%;
-            font-size: 1.8em;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            transition: all 0.1s ease-in-out;
+            position: fixed; top: 15px; width: 55px; height: 55px; border: none; border-radius: 50%;
+            font-size: 1.8em; cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;
+            padding: 0; transition: all 0.1s ease-in-out;
         }
 
-        /* Ecrã Inteiro no canto direito */
         .btn-fullscreen {
-            right: 15px;
-            background-color: #004890;
-            color: white;
-            box-shadow: 0 6px 0 #002855, 0 8px 15px rgba(0,0,0,0.3);
+            right: 15px; background-color: #004890; color: white; box-shadow: 0 6px 0 #002855, 0 8px 15px rgba(0,0,0,0.3);
         }
-        .btn-fullscreen:active {
-            box-shadow: 0 0px 0 #002855;
-            transform: translateY(6px);
-        }
+        .btn-fullscreen:active { box-shadow: 0 0px 0 #002855; transform: translateY(6px); }
 
-        /* Música no canto esquerdo */
         .btn-music {
-            left: 15px;
-            background-color: #FFCB05;
-            color: #004890;
-            box-shadow: 0 6px 0 #D99B00, 0 8px 15px rgba(0,0,0,0.3);
+            left: 15px; background-color: #FFCB05; color: #004890; box-shadow: 0 6px 0 #D99B00, 0 8px 15px rgba(0,0,0,0.3);
         }
-        .btn-music:active {
-            box-shadow: 0 0px 0 #D99B00;
-            transform: translateY(6px);
-        }
+        .btn-music:active { box-shadow: 0 0px 0 #D99B00; transform: translateY(6px); }
 
         .logo-jogo {
-            max-width: 90%;
-            max-height: 280px; 
-            margin-bottom: 10px;
-            object-fit: contain;
+            max-width: 90%; max-height: 280px; margin-bottom: 10px; object-fit: contain;
             animation: pular 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.15));
         }
 
         button.btn-principal { 
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 700;
-            padding: 15px 40px; 
-            font-size: 1.4em; 
-            cursor: pointer; 
-            border: none; 
-            border-radius: 40px; 
-            background-color: #FFCB05; 
-            color: #004890; 
-            box-shadow: 0 8px 0 #D99B00, 0 15px 20px rgba(0,0,0,0.2);
-            transition: all 0.1s ease-in-out;
-            text-transform: uppercase;
+            font-family: 'Fredoka', sans-serif; font-weight: 700; padding: 15px 40px; font-size: 1.4em; 
+            cursor: pointer; border: none; border-radius: 40px; background-color: #FFCB05; color: #004890; 
+            box-shadow: 0 8px 0 #D99B00, 0 15px 20px rgba(0,0,0,0.2); transition: all 0.1s ease-in-out; text-transform: uppercase;
         }
+        button.btn-principal:hover { background-color: #FFD633; }
+        button.btn-principal:active { box-shadow: 0 0px 0 #D99B00, 0 5px 10px rgba(0,0,0,0.2); transform: translateY(8px); }
 
-        button.btn-principal:hover { 
-            background-color: #FFD633; 
-        }
-
-        button.btn-principal:active {
-            box-shadow: 0 0px 0 #D99B00, 0 5px 10px rgba(0,0,0,0.2);
-            transform: translateY(8px);
-        }
-
-        #app-container {
-            width: 100%;
-            max-width: 800px;
-            padding-bottom: 40px;
-        }
+        #app-container { width: 100%; max-width: 800px; padding-bottom: 40px; }
 
         .tela-inicial {
-            text-align: center;
-            background: white;
-            padding: 40px 20px 20px 20px;
-            border-radius: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border: 6px solid #004890; 
-            margin-top: 10px;
+            text-align: center; background: white; padding: 40px 20px 20px 20px; border-radius: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 6px solid #004890; margin-top: 10px;
         }
-
-        .tela-inicial h2 {
-            font-size: 2.2em;
-            color: #004890;
-            margin-top: 0;
-        }
+        .tela-inicial h2 { font-size: 2.2em; color: #004890; margin-top: 0; }
 
         .creditos-rodape {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 3px dashed #004890;
-            color: #555;
-            font-size: 1.1em;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin-top: 40px; padding-top: 20px; border-top: 3px dashed #004890; color: #555;
+            font-size: 1.1em; display: flex; flex-direction: column; align-items: center;
         }
 
         .card { 
-            background: white; 
-            padding: 25px; 
-            margin-bottom: 25px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 0 rgba(0,0,0,0.1); 
-            border: 5px solid #ccc; 
-            position: relative;
-            animation: pular 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-            transform: scale(0.5);
+            background: white; padding: 25px; margin-bottom: 25px; border-radius: 20px; 
+            box-shadow: 0 10px 0 rgba(0,0,0,0.1); border: 5px solid #ccc; position: relative;
+            animation: pular 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0.5);
         }
 
-        @keyframes pular {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes pular { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-        .card h3 { 
-            margin-top: 0; 
-            font-size: 1.6em;
-            border-bottom: 3px solid #eee;
-            padding-bottom: 10px;
-        }
+        .card h3 { margin-top: 0; font-size: 1.6em; border-bottom: 3px solid #eee; padding-bottom: 10px; }
         
-        .borda-Verde { border-color: #39B54A; border-bottom-width: 12px; }
-        .borda-Verde h3 { color: #288034; }
+        .borda-Verde { border-color: #39B54A; border-bottom-width: 12px; } .borda-Verde h3 { color: #288034; }
+        .borda-Azul { border-color: #0071BC; border-bottom-width: 12px; } .borda-Azul h3 { color: #004890; }
+        .borda-Amarelo { border-color: #FFCB05; border-bottom-width: 12px; } .borda-Amarelo h3 { color: #b38600; }
+        .borda-Vermelho { border-color: #ED1C24; border-bottom-width: 12px; } .borda-Vermelho h3 { color: #a60000; }
 
-        .borda-Azul { border-color: #0071BC; border-bottom-width: 12px; }
-        .borda-Azul h3 { color: #004890; }
-
-        .borda-Amarelo { border-color: #FFCB05; border-bottom-width: 12px; }
-        .borda-Amarelo h3 { color: #b38600; }
-
-        .borda-Vermelho { border-color: #ED1C24; border-bottom-width: 12px; }
-        .borda-Vermelho h3 { color: #a60000; }
-
-        ul.opcoes-lista {
-            list-style-type: none; 
-            padding: 0;
-            margin: 20px 0;
-        }
-
+        ul.opcoes-lista { list-style-type: none; padding: 0; margin: 20px 0; }
         ul.opcoes-lista li {
-            background-color: #f5f9ff;
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid #cce0ff;
-            font-size: 1.1em;
+            background-color: #f5f9ff; margin-bottom: 10px; padding: 15px; border-radius: 12px;
+            border: 2px solid #cce0ff; font-size: 1.1em;
         }
 
         .resposta-box {
-            background-color: #fff9e6; 
-            padding: 15px; 
-            border-radius: 15px; 
-            border: 3px dashed #FFCB05;
-            margin-top: 20px;
-            font-size: 1.1em;
+            background-color: #fff9e6; padding: 15px; border-radius: 15px; border: 3px dashed #FFCB05;
+            margin-top: 20px; font-size: 1.1em;
         }
 
         .scroll-indicador {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #FFCB05;
-            color: #004890;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 1.1em;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 3px solid #004890;
-            z-index: 1000;
-            pointer-events: none; 
-            transition: opacity 0.3s ease-in-out;
-            animation: flutuar 1.5s ease-in-out infinite;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background-color: #FFCB05;
+            color: #004890; padding: 12px 25px; border-radius: 30px; font-weight: 700; font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 3px solid #004890; z-index: 1000; pointer-events: none; 
+            transition: opacity 0.3s ease-in-out; animation: flutuar 1.5s ease-in-out infinite;
         }
 
-        @keyframes flutuar {
-            0% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, -15px); }
-            100% { transform: translate(-50%, 0); }
-        }
+        @keyframes flutuar { 0% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -15px); } 100% { transform: translate(-50%, 0); } }
     </style>
 </head>
 <body>
 
-    <!-- Reprodutor de Áudio Invisível (Loop ativado) -->
-    <audio id="bgMusic" loop>
-        <source src="musica.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Áudios do Jogo -->
+    <audio id="bgMusic" loop><source src="musica.mp3" type="audio/mpeg"></audio>
+    <audio id="som-correto"><source src="correto.mp3" type="audio/mpeg"></audio>
+    <audio id="som-errado"><source src="errado.mp3" type="audio/mpeg"></audio>
 
-    <!-- Botões Flutuantes -->
     <button class="btn-music" id="btn-music-toggle" onclick="toggleMusic()" title="Ligar/Desligar Música">🔇</button>
     <button class="btn-fullscreen" onclick="toggleFullScreen()" title="Alternar Ecrã Inteiro">⛶</button>
 
@@ -239,26 +111,21 @@
     
     <div id="app-container">
         <div class="tela-inicial">
-            
             <h2>Bem-vindo!</h2>
             <p style="font-size: 1.3em; margin-bottom: 30px; color: #444;">Prepare os peões e a roleta para começar a aprender brincando.</p>
             <button class="btn-principal" onclick="renderizarRegras()">▶ Iniciar Jogo</button>
-
             <div class="creditos-rodape">
                 <p style="margin: 0 0 5px 0; font-weight: 700; color: #004890;">Disciplina de Odontopediatria da UFC - Sobral</p>
                 <p style="margin: 0; font-size: 0.9em; font-weight: 500;">Criado por: Lourival, Gustavo e Taylan</p>
-                
                 <img src="logo.png" alt="Logo UFC Sobral" style="max-height: 100px; margin-top: 20px;">
             </div>
-
         </div>
     </div>
 
-    <!-- Importando os ficheiros -->
     <script src="regras.js"></script>
     <script src="perguntas.js"></script>
-    <script src="roleta.js?v=8"></script>
-    <script src="app.js?v=8"></script>
+    <script src="roleta.js?v=10"></script>
+    <script src="app.js?v=10"></script>
 
 </body>
 </html>
