@@ -6,21 +6,19 @@ const estiloTitulo = "text-align: center; color: #004890; text-shadow: -3px -3px
 let cartasDisponiveis = [...dbPerguntas];
 let isMusicPlaying = false;
 
-// ----- NOVO: FUNÇÃO PARA REDIMENSIONAR A LOGO -----
 function ajustarLogo(tamanho) {
     const logo = document.querySelector('.logo-jogo');
     if (logo) {
         logo.style.transition = 'max-height 0.4s ease-in-out, margin-bottom 0.4s ease-in-out';
         if (tamanho === 'pequena') {
-            logo.style.maxHeight = '120px'; // Fica menor para não atrapalhar
+            logo.style.maxHeight = '120px'; 
             logo.style.marginBottom = '5px';
         } else {
-            logo.style.maxHeight = '280px'; // Tamanho original
+            logo.style.maxHeight = '280px'; 
             logo.style.marginBottom = '10px';
         }
     }
 }
-// --------------------------------------------------
 
 function toggleMusic() {
     const music = document.getElementById('bgMusic');
@@ -85,7 +83,7 @@ function removerIndicador() {
 
 function renderizarRegras() {
     iniciarMusica(); 
-    ajustarLogo('grande'); // Garante que a logo está grande nas instruções
+    ajustarLogo('grande'); 
 
     container.innerHTML = `<h2 style='${estiloTitulo}'>Instruções de Jogo</h2>`;
     
@@ -125,7 +123,7 @@ function renderizarRegras() {
 
 function renderizarSelecaoCores() {
     removerIndicador(); 
-    ajustarLogo('pequena'); // Encolhe a logo ao entrar no menu
+    ajustarLogo('pequena'); 
     
     container.innerHTML = `
         <h2 style='${estiloTitulo}'>Como vai sortear?</h2>
@@ -146,7 +144,7 @@ function renderizarSelecaoCores() {
 }
 
 function sortearCarta(cor) {
-    ajustarLogo('pequena'); // Mantém a logo pequena nas perguntas
+    ajustarLogo('pequena'); 
 
     const cartoesDaCor = cartasDisponiveis.filter(item => item.cor === cor);
     
@@ -207,8 +205,25 @@ function sortearCarta(cor) {
         opcao.addEventListener('click', () => {
             if (respondido) return; 
             respondido = true;
+            
             const letraSelecionada = opcao.getAttribute('data-letra');
             const letraCorreta = item.respostaCorreta;
+
+            // ----- NOVO: TOCAR SOM DE ACERTO OU ERRO -----
+            if (letraSelecionada === letraCorreta) {
+                const audioAcerto = document.getElementById('som-correto');
+                if (audioAcerto) {
+                    audioAcerto.currentTime = 0; // Reinicia o áudio do zero
+                    audioAcerto.play().catch(e => console.log("Erro ao tocar som de acerto:", e));
+                }
+            } else {
+                const audioErro = document.getElementById('som-errado');
+                if (audioErro) {
+                    audioErro.currentTime = 0; // Reinicia o áudio do zero
+                    audioErro.play().catch(e => console.log("Erro ao tocar som de erro:", e));
+                }
+            }
+            // ---------------------------------------------
 
             opcoes.forEach(opt => {
                 const letraAtual = opt.getAttribute('data-letra');
