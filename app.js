@@ -28,6 +28,7 @@ function toggleMusic() {
         isMusicPlaying = false;
         btn.innerHTML = '🔇';
     } else {
+        music.volume = 1.0; // Garante que volta no volume máximo
         music.play().then(() => {
             isMusicPlaying = true;
             btn.innerHTML = '🔊';
@@ -39,6 +40,7 @@ function iniciarMusica() {
     const music = document.getElementById('bgMusic');
     const btn = document.getElementById('btn-music-toggle');
     if (!isMusicPlaying) {
+        music.volume = 1.0; 
         music.play().then(() => {
             isMusicPlaying = true;
             btn.innerHTML = '🔊';
@@ -209,21 +211,39 @@ function sortearCarta(cor) {
             const letraSelecionada = opcao.getAttribute('data-letra');
             const letraCorreta = item.respostaCorreta;
 
-            // ----- NOVO: TOCAR SOM DE ACERTO OU ERRO -----
-            if (letraSelecionada === letraCorreta) {
-                const audioAcerto = document.getElementById('som-correto');
-                if (audioAcerto) {
-                    audioAcerto.currentTime = 0; // Reinicia o áudio do zero
-                    audioAcerto.play().catch(e => console.log("Erro ao tocar som de acerto:", e));
-                }
-            } else {
-                const audioErro = document.getElementById('som-errado');
-                if (audioErro) {
-                    audioErro.currentTime = 0; // Reinicia o áudio do zero
-                    audioErro.play().catch(e => console.log("Erro ao tocar som de erro:", e));
-                }
+            // ----- NOVA LÓGICA DE ÁUDIO (BAIXAR MÚSICA DE FUNDO) -----
+            const music = document.getElementById('bgMusic');
+            
+            // Verifica se a música está tocando agora
+            if (isMusicPlaying) {
+                music.volume = 0.2; // Baixa o volume para 20%
             }
-            // ---------------------------------------------
+
+            let audioTocado = null;
+            if (letraSelecionada === letraCorreta) {
+                audioTocado = document.getElementById('som-correto');
+            } else {
+                audioTocado = document.getElementById('som-errado');
+            }
+
+            if (audioTocado) {
+                audioTocado.currentTime = 0;
+                audioTocado.play().catch(e => console.log("Erro ao tocar som:", e));
+                
+                // Quando o efeito sonoro terminar, volta a música ao normal
+                audioTocado.onended = () => {
+                    if (isMusicPlaying) music.volume = 1.0;
+                };
+
+                // Garantia (fallback): se o som falhar e o onended não disparar, o volume volta após 3 segundos
+                setTimeout(() => {
+                    if (isMusicPlaying) music.volume = 1.0;
+                }, 3000);
+            } else {
+                // Se o arquivo de som não for encontrado, volta o volume na mesma hora
+                if (isMusicPlaying) music.volume = 1.0;
+            }
+            // --------------------------------------------------------
 
             opcoes.forEach(opt => {
                 const letraAtual = opt.getAttribute('data-letra');
