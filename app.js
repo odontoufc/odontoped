@@ -1,20 +1,14 @@
 // app.js
 
 const container = document.getElementById('app-container');
-
 const estiloTitulo = "text-align: center; color: #004890; text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff, 0 6px 10px rgba(0,0,0,0.15); font-size: 2.5em; font-weight: 700; margin-bottom: 30px;";
 
-// ----- NOVO: CONTROLE DE CARTAS DISPONÍVEIS -----
-// Cria uma cópia do banco original. Funciona como um "baralho" que vai esvaziando.
 let cartasDisponiveis = [...dbPerguntas];
-
-// ----- FUNÇÕES DE ÁUDIO -----
 let isMusicPlaying = false;
 
 function toggleMusic() {
     const music = document.getElementById('bgMusic');
     const btn = document.getElementById('btn-music-toggle');
-    
     if (isMusicPlaying) {
         music.pause();
         isMusicPlaying = false;
@@ -30,37 +24,27 @@ function toggleMusic() {
 function iniciarMusica() {
     const music = document.getElementById('bgMusic');
     const btn = document.getElementById('btn-music-toggle');
-    
     if (!isMusicPlaying) {
         music.play().then(() => {
             isMusicPlaying = true;
             btn.innerHTML = '🔊';
-        }).catch(err => console.log("Não foi possível iniciar a música automaticamente.", err));
+        }).catch(err => console.log("Erro no áudio", err));
     }
 }
-// -----------------------------
 
-// ----- FUNÇÃO TELA CHEIA -----
 function toggleFullScreen() {
     const doc = window.document;
     const docEl = doc.documentElement;
-
     const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
     const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
     if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-        if (requestFullScreen) {
-            requestFullScreen.call(docEl);
-        }
+        if (requestFullScreen) requestFullScreen.call(docEl);
     } else {
-        if (cancelFullScreen) {
-            cancelFullScreen.call(doc);
-        }
+        if (cancelFullScreen) cancelFullScreen.call(doc);
     }
 }
-// -----------------------------
 
-// ----- FUNÇÕES DO INDICADOR DE SCROLL -----
 function verificarScroll() {
     const indicador = document.getElementById('indicador-scroll');
     if (indicador) {
@@ -68,7 +52,6 @@ function verificarScroll() {
             indicador.style.display = 'none';
             return;
         }
-        
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
             indicador.style.opacity = '0';
         } else {
@@ -83,11 +66,9 @@ function removerIndicador() {
     if(indicador) indicador.remove();
     window.removeEventListener('scroll', verificarScroll);
 }
-// ------------------------------------------
 
 function renderizarRegras() {
     iniciarMusica(); 
-
     container.innerHTML = `<h2 style='${estiloTitulo}'>Instruções de Jogo</h2>`;
     
     dbRegras.forEach((secao, index) => {
@@ -109,7 +90,7 @@ function renderizarRegras() {
     const divBotao = document.createElement('div');
     divBotao.style.textAlign = "center";
     divBotao.style.margin = "40px 0 60px 0"; 
-    divBotao.innerHTML = `<button class="btn-principal" onclick="renderizarSelecaoCores()">Ir para Roleta de Cartões 🎲</button>`;
+    divBotao.innerHTML = `<button class="btn-principal" onclick="renderizarSelecaoCores()">Ir para o Menu do Jogo 🎲</button>`;
     
     container.appendChild(divBotao);
 
@@ -128,39 +109,48 @@ function renderizarSelecaoCores() {
     removerIndicador(); 
     
     container.innerHTML = `
-        <h2 style='${estiloTitulo}'>Qual cor caiu na roleta?</h2>
+        <h2 style='${estiloTitulo}'>Como vai sortear?</h2>
+        
+        <!-- NOVO: Botão Principal da Roleta Integrada -->
+        <div style="text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 3px dashed #004890;">
+            <button class="btn-principal" style="background-color: #0071BC; color: white; box-shadow: 0 8px 0 #004890; font-size: 1.6em; width: 100%; max-width: 350px;" onclick="renderizarRoletaDigital()">🎡 GIRAR ROLETA DIGITAL</button>
+        </div>
+
+        <p style="text-align: center; font-size: 1.3em; font-weight: 600; color: #444; margin-bottom: 20px;">Ou escolha a cor (se usar roleta física):</p>
+        
         <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-            <button style="background-color: #39B54A; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #207A2E; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #207A2E';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #207A2E';" onclick="sortearCarta('Verde')">VERDE</button>
-            
-            <button style="background-color: #0071BC; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #004890; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #004890';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #004890';" onclick="sortearCarta('Azul')">AZUL</button>
-            
-            <button style="background-color: #FFCB05; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #D99B00; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #D99B00';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #D99B00';" onclick="sortearCarta('Amarelo')">AMARELO</button>
-            
-            <button style="background-color: #ED1C24; color: #ffffff; width: 100%; max-width: 300px; height: 80px; font-size: 1.5em; box-shadow: 0 8px 0 #A80005; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #A80005';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #A80005';" onclick="sortearCarta('Vermelho')">VERMELHO</button>
+            <button style="background-color: #39B54A; color: #ffffff; width: 100%; max-width: 300px; height: 70px; font-size: 1.4em; box-shadow: 0 8px 0 #207A2E; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #207A2E';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #207A2E';" onclick="sortearCarta('Verde')">VERDE</button>
+            <button style="background-color: #0071BC; color: #ffffff; width: 100%; max-width: 300px; height: 70px; font-size: 1.4em; box-shadow: 0 8px 0 #004890; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #004890';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #004890';" onclick="sortearCarta('Azul')">AZUL</button>
+            <button style="background-color: #FFCB05; color: #ffffff; width: 100%; max-width: 300px; height: 70px; font-size: 1.4em; box-shadow: 0 8px 0 #D99B00; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #D99B00';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #D99B00';" onclick="sortearCarta('Amarelo')">AMARELO</button>
+            <button style="background-color: #ED1C24; color: #ffffff; width: 100%; max-width: 300px; height: 70px; font-size: 1.4em; box-shadow: 0 8px 0 #A80005; border: none; border-radius: 40px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.1s ease-in-out;" onmousedown="this.style.transform='translateY(6px)'; this.style.boxShadow='0 0px 0 #A80005';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0 #A80005';" onclick="sortearCarta('Vermelho')">VERMELHO</button>
         </div>
     `;
 }
 
 function sortearCarta(cor) {
-    // Busca na "pilha" atual apenas os cartões da cor que ainda não foram sorteados
     const cartoesDaCor = cartasDisponiveis.filter(item => item.cor === cor);
     
-    // Se não houver mais cartas dessa cor, emite um alerta
     if (cartoesDaCor.length === 0) {
-        alert(`Todas as cartas da cor ${cor} já foram sorteadas! O jogador deve girar a roleta novamente.`);
+        alert(`Todas as cartas da cor ${cor} já foram sorteadas! Gire a roleta novamente.`);
+        
+        // Se estiver na tela da roleta, reativa o botão para girar de novo
+        const btnGirar = document.getElementById('btn-girar');
+        if (btnGirar) {
+            btnGirar.disabled = false;
+            btnGirar.style.opacity = '1';
+            btnGirar.innerText = 'GIRAR NOVAMENTE! 🎡';
+        }
         return;
     }
     
-    // Sorteia a carta
     const item = cartoesDaCor[Math.floor(Math.random() * cartoesDaCor.length)];
-
-    // REMOVE A CARTA DO BARALHO GLOBAL PARA NÃO REPETIR
     cartasDisponiveis = cartasDisponiveis.filter(carta => carta.id !== item.id);
 
     container.innerHTML = `
         <div style="text-align: center; margin-bottom: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-            <button class="btn-principal" style="background-color: #004890; color: white; box-shadow: 0 6px 0 #002855; font-size: 1.1em; padding: 12px 20px;" onclick="renderizarSelecaoCores()">⬅ Voltar para Roleta</button>
-            <button class="btn-principal" style="background-color: #FFCB05; color: #004890; box-shadow: 0 6px 0 #D99B00; font-size: 1.1em; padding: 12px 20px;" onclick="sortearCarta('${cor}')">Sortear outra ${cor} 🎲</button>
+            <button class="btn-principal" style="background-color: #004890; color: white; box-shadow: 0 6px 0 #002855; font-size: 1.1em; padding: 12px 20px;" onclick="renderizarSelecaoCores()">⬅ Voltar ao Menu</button>
+            <!-- Permite à pessoa girar a roleta diretamente da carta, se quiser -->
+            <button class="btn-principal" style="background-color: #FFCB05; color: #004890; box-shadow: 0 6px 0 #D99B00; font-size: 1.1em; padding: 12px 20px;" onclick="renderizarRoletaDigital()">Girar Roleta Novamente 🎡</button>
         </div>
     `;
 
@@ -170,13 +160,11 @@ function sortearCarta(cor) {
     divCard.innerHTML = `
         <h3>Setor ${item.cor}: ${item.categoria}</h3>
         <p style="font-size: 1.4em; font-weight: 600; color: #333;"><strong>Pergunta:</strong> ${item.pergunta}</p>
-        
         <ul class="opcoes-lista" id="lista-${item.id}">
             <li data-letra="A"><strong>A)</strong> ${item.opcoes.A}</li>
             <li data-letra="B"><strong>B)</strong> ${item.opcoes.B}</li>
             <li data-letra="C"><strong>C)</strong> ${item.opcoes.C}</li>
         </ul>
-        
         <div class="resposta-box" id="resposta-${item.id}" style="display: none;">
             <p style="margin: 0 0 10px 0; color: #004890; font-size: 1.3em;"><strong>Resposta Correta: ${item.respostaCorreta}</strong></p>
             <p style="margin: 0; color: #555;"><strong>Para o Mediador:</strong> ${item.explicacao}</p>
@@ -192,25 +180,15 @@ function sortearCarta(cor) {
     opcoes.forEach(opcao => {
         opcao.style.cursor = 'pointer';
         opcao.style.transition = 'transform 0.1s, background-color 0.2s';
-
         opcao.addEventListener('mouseenter', () => {
-            if (!respondido) {
-                opcao.style.backgroundColor = '#e6f2ff';
-                opcao.style.transform = 'scale(1.02)';
-            }
+            if (!respondido) { opcao.style.backgroundColor = '#e6f2ff'; opcao.style.transform = 'scale(1.02)'; }
         });
-        
         opcao.addEventListener('mouseleave', () => {
-            if (!respondido) {
-                opcao.style.backgroundColor = '#f5f9ff';
-                opcao.style.transform = 'scale(1)';
-            }
+            if (!respondido) { opcao.style.backgroundColor = '#f5f9ff'; opcao.style.transform = 'scale(1)'; }
         });
-
         opcao.addEventListener('click', () => {
             if (respondido) return; 
             respondido = true;
-
             const letraSelecionada = opcao.getAttribute('data-letra');
             const letraCorreta = item.respostaCorreta;
 
@@ -218,20 +196,14 @@ function sortearCarta(cor) {
                 const letraAtual = opt.getAttribute('data-letra');
                 opt.style.cursor = 'default';
                 opt.style.transform = 'scale(1)';
-                
                 if (letraAtual === letraCorreta) {
-                    opt.style.backgroundColor = '#d4edda';
-                    opt.style.borderColor = '#c3e6cb';
-                    opt.style.color = '#155724';
+                    opt.style.backgroundColor = '#d4edda'; opt.style.borderColor = '#c3e6cb'; opt.style.color = '#155724';
                 } else if (letraAtual === letraSelecionada) {
-                    opt.style.backgroundColor = '#f8d7da';
-                    opt.style.borderColor = '#f5c6cb';
-                    opt.style.color = '#721c24';
+                    opt.style.backgroundColor = '#f8d7da'; opt.style.borderColor = '#f5c6cb'; opt.style.color = '#721c24';
                 } else {
                     opt.style.opacity = '0.5';
                 }
             });
-
             caixaResposta.style.display = 'block';
             caixaResposta.style.animation = 'pular 0.4s ease-out forwards';
         });
