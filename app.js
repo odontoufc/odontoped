@@ -6,6 +6,22 @@ const estiloTitulo = "text-align: center; color: #004890; text-shadow: -3px -3px
 let cartasDisponiveis = [...dbPerguntas];
 let isMusicPlaying = false;
 
+// ----- NOVO: FUNÇÃO PARA REDIMENSIONAR A LOGO -----
+function ajustarLogo(tamanho) {
+    const logo = document.querySelector('.logo-jogo');
+    if (logo) {
+        logo.style.transition = 'max-height 0.4s ease-in-out, margin-bottom 0.4s ease-in-out';
+        if (tamanho === 'pequena') {
+            logo.style.maxHeight = '120px'; // Fica menor para não atrapalhar
+            logo.style.marginBottom = '5px';
+        } else {
+            logo.style.maxHeight = '280px'; // Tamanho original
+            logo.style.marginBottom = '10px';
+        }
+    }
+}
+// --------------------------------------------------
+
 function toggleMusic() {
     const music = document.getElementById('bgMusic');
     const btn = document.getElementById('btn-music-toggle');
@@ -69,6 +85,8 @@ function removerIndicador() {
 
 function renderizarRegras() {
     iniciarMusica(); 
+    ajustarLogo('grande'); // Garante que a logo está grande nas instruções
+
     container.innerHTML = `<h2 style='${estiloTitulo}'>Instruções de Jogo</h2>`;
     
     dbRegras.forEach((secao, index) => {
@@ -107,11 +125,11 @@ function renderizarRegras() {
 
 function renderizarSelecaoCores() {
     removerIndicador(); 
+    ajustarLogo('pequena'); // Encolhe a logo ao entrar no menu
     
     container.innerHTML = `
         <h2 style='${estiloTitulo}'>Como vai sortear?</h2>
         
-        <!-- NOVO: Botão Principal da Roleta Integrada -->
         <div style="text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 3px dashed #004890;">
             <button class="btn-principal" style="background-color: #0071BC; color: white; box-shadow: 0 8px 0 #004890; font-size: 1.6em; width: 100%; max-width: 350px;" onclick="renderizarRoletaDigital()">🎡 GIRAR ROLETA DIGITAL</button>
         </div>
@@ -128,12 +146,13 @@ function renderizarSelecaoCores() {
 }
 
 function sortearCarta(cor) {
+    ajustarLogo('pequena'); // Mantém a logo pequena nas perguntas
+
     const cartoesDaCor = cartasDisponiveis.filter(item => item.cor === cor);
     
     if (cartoesDaCor.length === 0) {
         alert(`Todas as cartas da cor ${cor} já foram sorteadas! Gire a roleta novamente.`);
         
-        // Se estiver na tela da roleta, reativa o botão para girar de novo
         const btnGirar = document.getElementById('btn-girar');
         if (btnGirar) {
             btnGirar.disabled = false;
@@ -149,7 +168,6 @@ function sortearCarta(cor) {
     container.innerHTML = `
         <div style="text-align: center; margin-bottom: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
             <button class="btn-principal" style="background-color: #004890; color: white; box-shadow: 0 6px 0 #002855; font-size: 1.1em; padding: 12px 20px;" onclick="renderizarSelecaoCores()">⬅ Voltar ao Menu</button>
-            <!-- Permite à pessoa girar a roleta diretamente da carta, se quiser -->
             <button class="btn-principal" style="background-color: #FFCB05; color: #004890; box-shadow: 0 6px 0 #D99B00; font-size: 1.1em; padding: 12px 20px;" onclick="renderizarRoletaDigital()">Girar Roleta Novamente 🎡</button>
         </div>
     `;
