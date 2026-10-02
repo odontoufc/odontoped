@@ -21,8 +21,8 @@ function renderizarRoletaDigital() {
             <!-- Seta/Ponteiro maior -->
             <div style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 25px solid transparent; border-right: 25px solid transparent; border-top: 50px solid #333; z-index: 10; filter: drop-shadow(0px 4px 2px rgba(0,0,0,0.3));"></div>
             
-            <!-- Roda animada -->
-            <div id="roda-roleta" style="position: relative; width: 100%; height: 100%; border-radius: 50%; border: 10px solid #004890; box-shadow: 0 10px 20px rgba(0,0,0,0.2); background: conic-gradient(#39B54A 0 90deg, #0071BC 90deg 180deg, #FFCB05 180deg 270deg, #ED1C24 270deg 360deg); transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); transform: rotate(${rotacaoAtual}deg);">
+            <!-- Roda animada - O tempo de transição foi ajustado para 5s (5 segundos) para casar perfeitamente com o áudio -->
+            <div id="roda-roleta" style="position: relative; width: 100%; height: 100%; border-radius: 50%; border: 10px solid #004890; box-shadow: 0 10px 20px rgba(0,0,0,0.2); background: conic-gradient(#39B54A 0 90deg, #0071BC 90deg 180deg, #FFCB05 180deg 270deg, #ED1C24 270deg 360deg); transition: transform 5s cubic-bezier(0.1, 0.7, 0.1, 1); transform: rotate(${rotacaoAtual}deg);">
                 
                 <!-- Linhas divisórias da roda mais grossas -->
                 <div style="position: absolute; width: 6px; height: 100%; background: #004890; left: 50%; transform: translateX(-50%);"></div>
@@ -49,13 +49,35 @@ function girarRoleta() {
     btnGirar.style.opacity = '0.5';
     btnGirar.innerText = 'Girando...';
 
+    // ----- NOVO: LÓGICA DE ÁUDIO DA ROLETA -----
+    const music = document.getElementById('bgMusic');
+    const somRoleta = document.getElementById('som-roleta');
+    
+    // Se a música de fundo estiver tocando, reduzimos o volume (Audio Ducking)
+    if (typeof isMusicPlaying !== 'undefined' && isMusicPlaying && music) {
+        music.volume = 0.2;
+    }
+    
+    // Toca o efeito sonoro da roleta
+    if (somRoleta) {
+        somRoleta.currentTime = 0;
+        somRoleta.play().catch(e => console.log("Erro ao tocar som da roleta:", e));
+    }
+    // --------------------------------------------
+
     const grausAleatorios = Math.floor(Math.random() * 360);
     const voltas = 1800 + Math.floor(Math.random() * 1080);
     
     rotacaoAtual += voltas + grausAleatorios;
     roda.style.transform = `rotate(${rotacaoAtual}deg)`;
 
+    // Aguarda exatamente 5.000 milissegundos (5 segundos) para casar com a nova animação CSS
     setTimeout(() => {
+        // Restaura o volume da música de fundo
+        if (typeof isMusicPlaying !== 'undefined' && isMusicPlaying && music) {
+            music.volume = 1.0;
+        }
+
         const anguloFinal = 360 - (rotacaoAtual % 360);
         let corVencedora = '';
         
@@ -71,5 +93,5 @@ function girarRoleta() {
 
         sortearCarta(corVencedora);
 
-    }, 4100); 
+    }, 5000); 
 }
