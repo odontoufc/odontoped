@@ -1,5 +1,37 @@
 // app.js
+// ----- LÓGICA DE INSTALAÇÃO DO APLICATIVO (PWA) -----
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Impede o mini-aviso padrão do navegador
+    e.preventDefault();
+    // Guarda o evento para usarmos no botão
+    deferredPrompt = e;
+    // Torna o botão visível na tela inicial
+    const btnInstall = document.getElementById('btn-install');
+    if (btnInstall) btnInstall.style.display = 'inline-block';
+});
 
+function instalarApp() {
+    if (deferredPrompt) {
+        // Mostra a janela de instalação nativa do celular
+        deferredPrompt.prompt();
+        // Aguarda a resposta do usuário
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('App instalado com sucesso!');
+            }
+            deferredPrompt = null;
+            // Esconde o botão após instalar
+            const btnInstall = document.getElementById('btn-install');
+            if (btnInstall) btnInstall.style.display = 'none';
+        });
+    }
+}
+// ---------------------------------------------------
+
+// O resto do seu ficheiro app.js continua aqui em baixo:
+const container = document.getElementById('app-container');
+const estiloTitulo = "text-align: center; color: #004890; text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff, 0 6px 10px rgba(0,0,0,0.15); font-size: 2.5em; font-weight: 700; margin-bottom: 30px;";
 const container = document.getElementById('app-container');
 const estiloTitulo = "text-align: center; color: #004890; text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff, 0 6px 10px rgba(0,0,0,0.15); font-size: 2.5em; font-weight: 700; margin-bottom: 30px;";
 
