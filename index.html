@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Trilha do Sorriso Saudável</title>
     
-    <!-- Configurações de Web App -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#004890">
-    <link rel="apple-touch-icon" href="logo-jogo.png"> <!-- Para iPhones -->
-    
     <link rel="icon" type="image/png" href="logo-jogo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body { 
@@ -29,10 +24,14 @@
             padding: 0; transition: all 0.1s ease-in-out;
         }
 
-        .btn-fullscreen { right: 15px; background-color: #004890; color: white; box-shadow: 0 6px 0 #002855, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-fullscreen {
+            right: 15px; background-color: #004890; color: white; box-shadow: 0 6px 0 #002855, 0 8px 15px rgba(0,0,0,0.3);
+        }
         .btn-fullscreen:active { box-shadow: 0 0px 0 #002855; transform: translateY(6px); }
 
-        .btn-music { left: 15px; background-color: #FFCB05; color: #004890; box-shadow: 0 6px 0 #D99B00, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-music {
+            left: 15px; background-color: #FFCB05; color: #004890; box-shadow: 0 6px 0 #D99B00, 0 8px 15px rgba(0,0,0,0.3);
+        }
         .btn-music:active { box-shadow: 0 0px 0 #D99B00; transform: translateY(6px); }
 
         .logo-jogo {
@@ -104,6 +103,7 @@
     <audio id="bgMusic" loop><source src="musica.mp3" type="audio/mpeg"></audio>
     <audio id="som-correto"><source src="correto.mp3" type="audio/mpeg"></audio>
     <audio id="som-errado"><source src="errado.mp3" type="audio/mpeg"></audio>
+    <!-- NOVO ÁUDIO DA ROLETA -->
     <audio id="som-roleta"><source src="roleta.mp3" type="audio/mpeg"></audio>
 
     <button class="btn-music" id="btn-music-toggle" onclick="toggleMusic()" title="Ligar/Desligar Música">🔇</button>
@@ -115,13 +115,7 @@
         <div class="tela-inicial">
             <h2>Bem-vindo!</h2>
             <p style="font-size: 1.3em; margin-bottom: 30px; color: #444;">Prepare os peões e a roleta para começar a aprender brincando.</p>
-            
             <button class="btn-principal" onclick="renderizarRegras()">▶ Iniciar Jogo</button>
-            
-            <!-- Botão de instalação (Escondido por padrão, só aparece se o navegador permitir) -->
-            <br>
-            <button id="btn-install" class="btn-principal" style="display: none; background-color: #39B54A; color: white; box-shadow: 0 8px 0 #207A2E; margin-top: 15px;" onclick="instalarApp()">📲 Instalar Jogo no Celular</button>
-
             <div class="creditos-rodape">
                 <p style="margin: 0 0 5px 0; font-weight: 700; color: #004890;">Disciplina de Odontopediatria da UFC - Sobral</p>
                 <p style="margin: 0; font-size: 0.9em; font-weight: 500;">Criado por: Lourival, Gustavo e Taylan</p>
@@ -130,23 +124,10 @@
         </div>
     </div>
 
-    <!-- Registo do ficheiro Offline (Service Worker) -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(reg => {
-                    console.log('Modo Offline ativado!', reg.scope);
-                }).catch(err => {
-                    console.log('Erro ao ativar modo offline: ', err);
-                });
-            });
-        }
-    </script>
-
     <script src="regras.js"></script>
     <script src="perguntas.js"></script>
-    <script src="roleta.js?v=14"></script>
-    <script src="app.js?v=14"></script>
+    <script src="roleta.js?v=12"></script>
+    <script src="app.js?v=12"></script>
 
 </body>
 </html>
